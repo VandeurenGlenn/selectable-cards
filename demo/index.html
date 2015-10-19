@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>routed-card Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../selectable-cards.html">
+    <link rel="import" href="../../paper-card/paper-card.html">
+  </head>
+  <style>
+    paper-card {
+      width: 200px;
+    }
+    button {
+      margin: 8px;
+    }
+  </style>
+  <body unresolved>
+
+    <p>An example of <code>&lt;selectable-cards&gt;</code>:</p>
+
+    <selectable-cards>
+      <selectable-card heading="card">
+        <div class="card-content">Some content</div>
+      </selectable-card>
+      <selectable-card heading="card1">
+        <div class="card-content">Some content</div>
+      </selectable-card>
+      <selectable-card heading="card2">
+        <div class="card-content">Some content</div>
+      </selectable-card>
+    </selectable-cards>
+
+    <button id="prev">PREVIOUS</button>
+    <button id="next">NEXT</button>
+
+    <script>
+      var routedCards = document.querySelector('selectable-cards');
+
+      next.addEventListener('click', function () {
+        routedCards.selectNext();
+      });
+
+      prev.addEventListener('click', function () {
+        routedCards.selectPrevious();
+      });
+    </script>
+
+  </body>
+</html>

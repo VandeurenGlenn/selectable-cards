@@ -1,0 +1,82 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="selectable-cards-icons.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <selectable-card></selectable-card>
+
+@group Ui Elements
+@element selectable-card
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="selectable-card">
+
+  <template>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+      iron-selector {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+      }
+    </style>
+
+    <paper-card heading="[[heading]]">
+      <content></content>
+      <iron-selector class="card-actions" attr-for-selected="title">
+        <template is="dom-repeat" items="[[selectors]]">
+          <iron-icon icon="selectable-cards-icons:dot" title="[[item.name]]"></iron-icon>
+        </template>
+      </iron-selector>
+    </paper-card>
+
+  </template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'selectable-card',
+
+    properties: {
+
+      selectors: {
+        type: Array,
+        readOnly: true
+      },
+
+      heading: String,
+    },
+
+    listeners: {
+      'iron-activate': '_onIronSelect'
+    },
+
+    set: function (selectors) {
+      this._setSelectors(selectors);
+    },
+
+    _onIronSelect: function(event) {
+      this.fire('selected-card', event.detail.item.title);
+    },
+
+  });
+
+</script>
