@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../iron-overlay-behavior/iron-overlay-behavior.html">
 <link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
 <link rel="import" href="../neon-animation/neon-animations.html">
+<link rel="import" href="../paper-material/paper-material.html">
 <link rel="import" href="selectable-cards.html">
 
 <!--
@@ -38,7 +39,7 @@ Example:
       }
     </style>
     <paper-material elevation="1">
-      <selectable-cards>
+      <selectable-cards selected="{{selected}}">
         <content select="selectable-card"></content>
         <content select="selectable-cards-bar"></content>
       </selectable-cards>
@@ -65,7 +66,9 @@ Example:
       withBackdrop: {
         type: Boolean,
         value: true
-      }
+      },
+
+      selected: String
     },
 
     listeners: {
