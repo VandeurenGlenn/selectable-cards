@@ -38,7 +38,7 @@ Example:
       }
     </style>
 
-    <paper-card heading="[[heading]]">
+    <paper-card heading="[[heading]]" elevation="[[elevation]]">
       <content></content>
       <iron-selector class="card-actions" attr-for-selected="title">
         <template is="dom-repeat" items="[[selectors]]">
@@ -64,6 +64,11 @@ Example:
       },
 
       heading: String,
+
+      elevation: {
+        type: Number,
+        value: 1
+      }
     },
 
     listeners: {
