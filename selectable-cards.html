@@ -29,7 +29,7 @@ Example:
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
         box-sizing: border-box;
       }
       :host > .cards-container > ::content > :not(.iron-selected) {
@@ -40,12 +40,10 @@ Example:
         height: 16px;
       }*/
     </style>
-    <!-- <template is="dom-repeat" items="[[selectors]]">
-      <img src="icons/dot-icon.svg" title="[[item.name]]"></img>
-    </template> -->
     <div class="cards-container">
-      <content id="cards"></content>
+      <content id="cards" select="selectable-card"></content>
     </div>
+    <content id="bar" select="selectable-cards-bar, .selectable-cards-bar"></content>
 
   </template>
 </dom-module>
@@ -69,7 +67,7 @@ Example:
 
       activateEvent: {
         type: String,
-        value: 'on-selected-card'
+        value: null
       },
 
       selected: {
@@ -93,6 +91,10 @@ Example:
         type: String,
         value: '../'
       },
+
+      __cardDisabled__: {
+        computed: '_computeCardDisabled(cards, selectors, selected)'
+      }
     },
 
     listeners: {
@@ -107,6 +109,10 @@ Example:
 
     ready: function () {
       this._cards = Polymer.dom(this.$.cards).getDistributedNodes();
+      // this._bar = Polymer.dom(this.$.bar).getDistributedNodes();
+    },
+    get _bar() {
+      return Polymer.dom(this.$.bar).getDistributedNodes();
     },
 
     _getCards: function (cards) {
@@ -134,15 +140,31 @@ Example:
     },
 
     _pushSelectors: function () {
+      this.selectors = [];
       for (var i = 0; i < this.cards.length; i++) {
         var card = this.cards[i];
-        this.push('selectors', {name: card.getAttribute('name')?card.getAttribute('name'):card.getAttribute('heading')});
+        this.push('selectors', {
+          name: card[this.attrForSelected]?card[this.attrForSelected]:card.name,
+          disabled: card.disabled?card.disabled:card.disabled
+        });
       }
     },
 
-    _updateSelectors: function (selectors, cards) {
-      for (var i = 0; i < this.cards.length; i++) {
-        this.cards[i].set(this.selectors);
+    _updateSelectors: function () {
+      for (var i = 0; i < this._bar.length; i++) {
+        this._bar[i].set(this.selectors);
+        this._bar[i].selected = this.selected;
+      }
+    },
+
+    _computeCardDisabled: function (cards, selectors, selected) {
+      for (var i = 0; i < selectors.length; i++) {
+        if (selectors[i].name === selected) {
+          if (cards[i].disabled) {
+            selectors[i].disabled = false;
+          }
+          this.async(this._updateSelectors);
+        }
       }
     }
 
