@@ -1,6 +1,6 @@
 {
   "name": "selectable-cards",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     "Glenn Vandeuren <vandeurenglenn@gmail.com>"
   ],
@@ -21,7 +21,9 @@
     "polymer": "Polymer/polymer#^1.1.0",
     "paper-card": "PolymerElements/paper-card#~1.0.6",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#~1.0.2",
-    "iron-selector": "PolymerElements/iron-selector#~1.0.7"
+    "iron-selector": "PolymerElements/iron-selector#~1.0.7",
+    "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#~1.0.9",
+    "neon-animation": "PolymerElements/neon-animation#~1.0.7"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

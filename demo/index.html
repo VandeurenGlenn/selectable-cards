@@ -15,7 +15,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <title>routed-card Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../selectable-cards.html">
-    <link rel="import" href="../../paper-card/paper-card.html">
+    <link rel="import" href="../selectable-cards-dialog.html">
+    <link rel="import" href="../selectable-cards-bar.html">
   </head>
   <style>
     paper-card {
@@ -24,35 +25,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     button {
       margin: 8px;
     }
+    paper-material {
+      display: inline-flex;
+      flex-direction: column;
+    }
   </style>
   <body unresolved>
 
     <p>An example of <code>&lt;selectable-cards&gt;</code>:</p>
 
-    <selectable-cards>
-      <selectable-card heading="card">
-        <div class="card-content">Some content</div>
-      </selectable-card>
-      <selectable-card heading="card1">
-        <div class="card-content">Some content</div>
-      </selectable-card>
-      <selectable-card heading="card2">
-        <div class="card-content">Some content</div>
-      </selectable-card>
-    </selectable-cards>
+    <paper-material elevation="1">
+      <selectable-cards>
+        <selectable-card heading="card">
+          <div class="card-content">Some content</div>
+        </selectable-card>
+        <selectable-card heading="card1">
+          <div class="card-content">Some content</div>
+        </selectable-card>
+        <selectable-card heading="card2">
+          <div class="card-content">Some content</div>
+        </selectable-card>
+        <selectable-cards-bar></selectable-cards-bar>
+      </selectable-cards>
+    </paper-material>
 
-    <button id="prev">PREVIOUS</button>
-    <button id="next">NEXT</button>
+    <selectable-cards-dialog>
+      <selectable-card heading="card" elevation="0">
+        <div class="card-content">
+          <h4>Some content with routing disabled</h4>
+          <input id="input" type="text" placeholder="Enter something to continue" value="">
+        </div>
+      </selectable-card>
+      <selectable-card heading="card1" elevation="0" disabled>
+        <div class="card-content">
+          <h4>Some content with routing disabled</h4>
+          <input id="input1" type="text" placeholder="Enter something to continue again" value="">
+        </div>
+      </selectable-card>
+      <selectable-card heading="card2" elevation="0" disabled>
+        <div class="card-content">
+          <h4>Some content with routing disabled</h4>
+          <input id="input2" type="text" placeholder="Enter something to close dialog" value="">
+        </div>
+      </selectable-card>
+
+      <selectable-cards-bar></selectable-cards-bar>
+    </selectable-cards-dialog>
+
+    <button type="button" id="openDialog">OPEN DIALOG</button>
 
     <script>
       var routedCards = document.querySelector('selectable-cards');
+      var routedCardsDialog = document.querySelector('selectable-cards-dialog');
 
-      next.addEventListener('click', function () {
-        routedCards.selectNext();
+      openDialog.addEventListener('click', function () {
+        routedCardsDialog.open();
       });
 
-      prev.addEventListener('click', function () {
-        routedCards.selectPrevious();
+      input.addEventListener('change', function () {
+        routedCardsDialog.querySelector('selectable-cards').selectNext();
+      });
+
+      input1.addEventListener('change', function () {
+        routedCardsDialog.querySelector('selectable-cards').selectNext();
+      });
+
+      input2.addEventListener('change', function () {
+        routedCardsDialog.close();
+      });
+
+      routedCardsDialog.querySelector('selectable-cards').addEventListener('selected-changed', function (change) {
+        console.log();
+        for (var i = 0; i < routedCardsDialog.querySelector('selectable-cards').cards.length; i++) {
+          if(routedCardsDialog.querySelector('selectable-cards').cards[i].heading === change.detail.value) {
+            routedCardsDialog.querySelector('selectable-cards').cards[i].removeAttribute('disabled');
+          };
+        }
       });
     </script>
 

@@ -1,0 +1,98 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
+<link rel="import" href="../neon-animation/neon-animations.html">
+<link rel="import" href="selectable-cards.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <selectable-cards-dialog></selectable-cards-dialog>
+
+@group Ui Elements
+@element selectable-cards-dialog
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="selectable-cards-dialog">
+
+  <template>
+    <style>
+      :host {
+        display: block;
+        box-sizing: border-box;
+      }
+      paper-material {
+        background: #FFFFFF;
+      }
+    </style>
+    <paper-material elevation="1">
+      <selectable-cards>
+        <content select="selectable-card"></content>
+        <content select="selectable-cards-bar"></content>
+      </selectable-cards>
+      <div class="buttons-container">
+        <content select=".nav-buttons"></content>
+      </div>
+    </paper-material>
+  </template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'selectable-cards-dialog',
+
+    behaviors: [Polymer.NeonAnimationRunnerBehavior, Polymer.IronOverlayBehavior],
+    properties: {
+      opened: {
+        type: Boolean,
+        notify: true
+      },
+
+      withBackdrop: {
+        type: Boolean,
+        value: true
+      }
+    },
+
+    listeners: {
+     'neon-animation-finish': '_onNeonAnimationFinish'
+    },
+
+    _renderOpened: function() {
+      if (this.withBackdrop) {
+        this.backdropElement.open();
+      }
+      this.playAnimation('entry');
+     },
+
+    _renderClosed: function() {
+      if (this.withBackdrop) {
+       this.backdropElement.close();
+      }
+      this.playAnimation('exit');
+     },
+
+     _onNeonAnimationFinish: function() {
+       if (this.opened) {
+         this._finishRenderOpened();
+       } else {
+         this._finishRenderClosed();
+       }
+     }
+  });
+
+</script>

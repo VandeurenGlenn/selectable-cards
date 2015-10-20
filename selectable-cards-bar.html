@@ -17,20 +17,22 @@ An element providing a solution to no problem in particular.
 
 Example:
 
-    <selectable-card></selectable-card>
+    <selectable-cards-bar></selectable-cards-bar>
 
 @group Ui Elements
-@element selectable-card
+@element selectable-cards-bar
 @demo demo/index.html
 @hero hero.svg
 -->
-<dom-module id="selectable-card">
+<dom-module id="selectable-cards-bar">
 
   <template>
     <style>
       :host {
         display: block;
-        box-sizing: border-box;
+        box-sizing: border-box;        
+        border-top: 1px solid #e8e8e8;
+        padding: 5px 16px;
       }
       iron-selector {
         @apply(--layout-horizontal);
@@ -47,11 +49,11 @@ Example:
         pointer-events: none;
       }
     </style>
-
-    <paper-card heading="[[heading]]" elevation="[[elevation]]">
-      <content></content>
-    </paper-card>
-
+    <iron-selector class="card-actions" attr-for-selected="title" selected="[[selected]]">
+      <template is="dom-repeat" items="[[selectors]]">
+        <iron-icon icon="selectable-cards-icons:dot" title="[[item.name]]" disabled$="[[item.disabled]]"></iron-icon>
+      </template>
+    </iron-selector>
   </template>
 </dom-module>
 
@@ -59,27 +61,16 @@ Example:
 
   Polymer({
 
-    is: 'selectable-card',
+    is: 'selectable-cards-bar',
 
     properties: {
-
       selectors: {
         type: Array,
-        // notify: true,
         readOnly: true
       },
 
-      heading: String,
-
-      elevation: {
-        type: Number,
-        value: 0
-      },
-
-      disabled: {
-        type: Boolean,
-        value: false,
-        ReflectToAttribute: true
+      selected: {
+        type: String
       }
     },
 
